@@ -2,6 +2,11 @@ const express = require('express');
 const app = express(),
   morgan = require('morgan');
 
+  let top10movies = [
+    { title: 'Hangover', genre: 'Comedy'},
+    { title: 'Blade', genre: 'Thriller, Fantasy'},
+    { title: 'Lets be Cops', ranking: 'Comedy'}
+  ];
 
 app.use(morgan('common'));
 
@@ -12,8 +17,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong');
 });
-
-app.listen(8080);
 
 
 app.get('/movies', (req, res) => {
@@ -28,9 +31,5 @@ app.get('/', (req, res) => {
 });
 
 
-let top10movies = [
-  { title: 'Hangover', genre: 'Comedy'},
-  { title: 'Blade', genre: 'Thriller, Fantasy'},
-  { title: 'Lets be Cops', ranking: 'Comedy'}
-];
 console.log('1');
+app.listen(8080, ()=> { console.log('App is listening on port 8080.'); });

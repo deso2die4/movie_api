@@ -7,5 +7,353 @@
   <body>
     <h1>Movie Api</h1>
     <p>A API created to connect to the Movie App.</p>
+    <br>
+    <h3>Get a List of all Movies for the Movie App.</h3>
+    <p>
+      Description:
+      This part of the API code uses the GET Method to send Data in form of JSON back to the URL-endpoints /movies.
+      It gives a full List of Movies needed for the Webside.
+      <br>
+      URL endpoints:
+        /movies
+      <br>
+      Method Type:
+      GET
+      <br>
+      Parameters used in the URL:
+      No Parameters used for this Method.
+      <br>
+      Format of Data expected in the request and Example:
+      No Data expected in the request.
+      <br>
+      Format of response Data:
+      JSON file from an Database.
+      <br>
+      Real Code:
+    app.get('/movies', (req, res) => {
+
+      res.send(movies);
+      console.log('movie');
+    });
+  </p>
+
+  <p>
+    Description:
+    This part of the API code uses the GET Method to send Data in form of JSON back to the URL-endpoints /movies/:movietitle.
+    It gives all Data about the Movie thats requested.
+    <br>
+    URL endpoints:
+      /movies/:movietitle
+    <br>
+    Method Type:
+    GET
+    <br>
+    Parameters used in the URL:
+    movietitle
+    <br>
+    Format of Data expected in the request and Example:
+    No Data expected in the request.
+    <br>
+    Format of response Data:
+    JSON file from an Database.
+    <br>
+    Real Code:
+    app.get('/movies/:movietitle', (req, res) => {
+      let movietitle = req.params.movietitle;
+      let movieInfo = movies.find(movies=>
+       movies.title == movietitle );
+       console.log(movieInfo);
+      if (movieInfo) {
+        res.status(200).json(movieInfo);
+      } else {
+        res.status(404).send('${movietitle} not found');
+      }
+
+    });
+
+
+</p>
+
+
+  <p>
+    Description:
+    This part of the API code uses the GET Method to send Data in form of JSON back to the URL-endpoints /movies/genre/:genre.
+    It gives all Data about the requested Genre and Movies in thats Genre.
+    <br>
+    URL endpoints:
+      /movies/:movietitle
+    <br>
+    Method Type:
+    GET
+    <br>
+    Parameters used in the URL:
+    /:genre
+    <br>
+    Format of Data expected in the request and Example:
+    No Data expected in the request.
+    <br>
+    Format of response Data:
+    JSON file from an Database.
+    <br>
+    Real Code:
+
+    app.get('/movies/genre/:genre', (req, res) => {
+      let genre = req.params.genre;
+      let genreList = movies.find(movies => movies.genre == genre);
+      if (genreList) {
+      res.status(200).json(genreList);
+        } else {
+          res.status(404).send('${genre} doesnt exist');
+        }
+    });
+
+</p>
+
+
+  <p>
+    Description:
+    This part of the API code uses the GET Method to send Data in form of JSON back to the URL-endpoints /movies/director/:director.
+    It gives all Data about the requested Director.
+    <br>
+    URL endpoints:
+      /movies/director/:director
+    <br>
+    Method Type:
+    GET
+    <br>
+    Parameters used in the URL:
+    /:director
+    <br>
+    Format of Data expected in the request and Example:
+    No Data expected in the request.
+    <br>
+    Format of response Data:
+    JSON file from an Database.
+    <br>
+    Real Code:
+
+    app.get('/movies/director/:director', (req, res) => {
+      let director = req.params.director;
+      let directorInfo = movies.find(movies =>
+       movies.director == director).director;
+       console.log(directorInfo);
+      if (directorInfo) {
+        res.status(200).json(directorInfo);
+      } else {
+        res.status(404).send('${director} not found');
+      }
+    });
+
+</p>
+
+
+  <p>
+    Description:
+    This part of the API code uses the POST Method to send Data in form of JSON back to the API. The send Data is a new User with a User-Name.
+    It sends all Data back of the new User with a new created id.
+    <br>
+    URL endpoints:
+      /user
+    <br>
+    Method Type:
+    POST
+    <br>
+    Parameters used in the URL:
+    No Parameter used.
+    <br>
+    Format of Data expected in the request and Example:
+    JSON File with a User-name.
+    <br>
+    Format of response Data:
+    JSON file from an Database about the created User and with a id.
+    <br>
+    Real Code:
+
+
+    //CREATE new user
+    app.post('/user', (req, res) => {
+      let userData = req.body;
+      userData.id = uuid.v4();
+      if(userData.name) {
+        users.push(userData);
+        res.status(200).json(userData);
+        console.log(users);
+      } else {
+        res.status(400).send('please write name');
+      }
+    });
+
+</p>
+
+
+
+  <p>
+    Description:
+    This part of the API code uses the PUT Method to send Data in form of JSON back to the API. The send Data is a Updated Users Info.
+    It sends all Updated Data back of the User.
+    <br>
+    URL endpoints:
+      /user/:id
+    <br>
+    Method Type:
+    PUT
+    <br>
+    Parameters used in the URL:
+    /:id
+    <br>
+    Format of Data expected in the request and Example:
+    JSON File with a Updated User-name.
+    <br>
+    Format of response Data:
+    JSON file from an Database about the updated User.
+    <br>
+    Real Code:
+
+    //UPDATE user Info
+    app.put('/user/:id', (req, res) => {
+      let id = req.params.id;
+      let updateduser = req.body;
+      let user = users.find(users => users.id == id);
+      if(user) {
+        user.name = updateduser.name;
+        res.status(200).json(user);
+        console.log(users);
+      } else {
+        res.status(400).send('no such user');
+      }
+    });
+
+
+
+      <p>
+        Description:
+        This part of the API code uses the POST Method to send Data in form of JSON back to the API. The send Data is a added in the Users Info about Favourite Movies.
+        It sends a a confirmation text to the client.
+        <br>
+        URL endpoints:
+        /user/:id/:movietitle
+        <br>
+        Method Type:
+        POST
+        <br>
+        Parameters used in the URL:
+        /:id/:movietitle
+        <br>
+        Format of Data expected in the request and Example:
+        Requested Data is the movietitle included in the URL.
+        <br>
+        Format of response Data:
+        Confirmation text.
+        <br>
+        Real Code:
+
+
+        //ADD movie
+        app.post('/user/:id/:movietitle', (req, res) => {
+          let id = req.params.id;
+          let movietitle= req.params.movietitle;
+          let user = users.find(users => users.id == id);
+          if(user) {
+            user.favMovies = movietitle;
+            res.status(200).send('Movie is added!');
+            console.log(users);
+          } else {
+            res.status(400).send('no such user');
+          }
+        });
+
+
+
+</p>
+
+
+
+<p>
+  Description:
+  This part of the API code uses the DELETE Method to delete Data from the Database about the Users favourite Movie. The delted Data is a removed in the Users Info about Favourite Movies.
+  It sends a a confirmation text to the client.
+  <br>
+  URL endpoints:
+  /user/:id/:movietitle
+  <br>
+  Method Type:
+  DELETE
+  <br>
+  Parameters used in the URL:
+  /:id/:movietitle
+  <br>
+  Format of Data expected in the request and Example:
+  Requested Data is the movietitle included in the URL.
+  <br>
+  Format of response Data:
+  Confirmation text.
+  <br>
+  Real Code:
+
+
+
+  //DELETE movie
+  app.delete('/user/:id/:movietitle', (req, res) => {
+    let id = req.params.id;
+    let movietitle= req.params.movietitle;
+    let user = users.find(users => users.id == id);
+    if(user ) {
+      user.favMovies = users.filter(users => users.favMovies !== movietitle);
+      res.status(200).send('Movie is removed!');
+      console.log(users);
+    } else {
+      res.status(400).send('no such user');
+    }
+  });
+
+
+
+</p>
+
+
+
+
+<p>
+  Description:
+  This part of the API code uses the DELETE Method to delete Data from the Database about the User. The delted Data is a removed in the Users Info so the User is then unregistered.
+  It sends a a confirmation text to the client.
+  <br>
+  URL endpoints:
+  /user/:id
+  <br>
+  Method Type:
+  DELETE
+  <br>
+  Parameters used in the URL:
+  /:id
+  <br>
+  Format of Data expected in the request and Example:
+  Requested Data is the id in the URL.
+  <br>
+  Format of response Data:
+  Confirmation text.
+  <br>
+  Real Code:
+
+  /DELETE user
+  app.delete('/user/:id', (req, res) => {
+    let id = req.params.id;
+    let user = users.find(users => users.id == id);
+    if(user ) {
+      user = users.filter(users => users.id !== id);
+      res.status(200).send('User is removed!');
+      console.log(users);
+    } else {
+      res.status(400).send('no such user');
+    }
+  });
+
+
+
+
+</p>
+
+
+
   </body>
 </html>

@@ -97,7 +97,7 @@
     <br>
     Real Code:
 
-    app.get('/movies/genre/:genre', (req, res) => {
+    app.get('/movies/genres/:genre', (req, res) => {
       let genre = req.params.genre;
       let genreList = movies.find(movies => movies.genre == genre);
       if (genreList) {
@@ -116,7 +116,7 @@
     It gives all Data about the requested Director.
     <br>
     URL endpoints:
-      /movies/director/:director
+      /movies/directors/:director
     <br>
     Method Type:
     GET
@@ -132,7 +132,7 @@
     <br>
     Real Code:
 
-    app.get('/movies/director/:director', (req, res) => {
+    app.get('/movies/directors/:director', (req, res) => {
       let director = req.params.director;
       let directorInfo = movies.find(movies =>
        movies.director == director).director;
@@ -153,7 +153,7 @@
     It sends all Data back of the new User with a new created id.
     <br>
     URL endpoints:
-      /user
+      /users
     <br>
     Method Type:
     POST
@@ -171,7 +171,7 @@
 
 
     //CREATE new user
-    app.post('/user', (req, res) => {
+    app.post('/users', (req, res) => {
       let userData = req.body;
       userData.id = uuid.v4();
       if(userData.name) {
@@ -193,7 +193,7 @@
     It sends all Updated Data back of the User.
     <br>
     URL endpoints:
-      /user/:id
+      /users/:id
     <br>
     Method Type:
     PUT
@@ -210,7 +210,7 @@
     Real Code:
 
     //UPDATE user Info
-    app.put('/user/:id', (req, res) => {
+    app.put('/users/:id', (req, res) => {
       let id = req.params.id;
       let updateduser = req.body;
       let user = users.find(users => users.id == id);
@@ -249,7 +249,7 @@
 
 
         //ADD movie
-        app.post('/user/:id/:movietitle', (req, res) => {
+        app.post('/users/:id/:movietitle', (req, res) => {
           let id = req.params.id;
           let movietitle= req.params.movietitle;
           let user = users.find(users => users.id == id);
@@ -274,7 +274,7 @@
   It sends a a confirmation text to the client.
   <br>
   URL endpoints:
-  /user/:id/:movietitle
+  /users/:id/:movietitle
   <br>
   Method Type:
   DELETE
@@ -293,7 +293,7 @@
 
 
   //DELETE movie
-  app.delete('/user/:id/:movietitle', (req, res) => {
+  app.delete('/users/:id/:movietitle', (req, res) => {
     let id = req.params.id;
     let movietitle= req.params.movietitle;
     let user = users.find(users => users.id == id);
@@ -336,7 +336,7 @@
   Real Code:
 
   /DELETE user
-  app.delete('/user/:id', (req, res) => {
+  app.delete('/users/:id', (req, res) => {
     let id = req.params.id;
     let user = users.find(users => users.id == id);
     if(user ) {

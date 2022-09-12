@@ -2,7 +2,7 @@ const jwtSecret = 'your_jwt_secret'; // This has to be the same key used in the 
 
 const jwt = require('jsonwebtoken'),
   passport = require('passport');
-
+  const { check, validationResult } = require('express-validator');
 require('./passport'); // Your local passport file
 
 
@@ -16,22 +16,35 @@ let generateJWTToken = (user) => {
 
 
 /* POST login. */
+
 module.exports = (router) => {
-  router.post('/login', (req, res) => {
-    passport.authenticate('local', { session: false }, (error, user, info) => {
-      if (error || !user) {
-        return res.status(400).json({
-          message: 'Something is not right',
-          user: user
-        });
+  router.post(
+    '/login',
+    [
+      check('Username', 'Username is required').isLength({ min: 5 }),
+      check('username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
+      check('Password', 'Password is required').not().isEmpty(),
+    ],
+    (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
       }
-      req.login(user, { session: false }, (error) => {
-        if (error) {
-          res.send(error);
+      passport.authenticate('local', { session: false }, (error, user, info) => {
+        if (error || !user) {
+          return res.status(400).json({
+            message: 'Something is not right',
+            user,
+          });
         }
-        let token = generateJWTToken(user.toJSON());
-        return res.json({ user, token });
-      });
-    })(req, res);
-  });
-}
+        req.login(user, { session: false }, (err) => {
+          if (err) {
+            res.send(err);
+          }
+          const token = generateJWTToken(user.toJSON());
+          return res.json({ user, token });
+        });
+      })(req, res);
+    },
+  );
+};

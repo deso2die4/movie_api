@@ -132,10 +132,10 @@ app.post('/users',
 //UPDATE user Info
 app.put('/users/:id',
 [
-  check('Username', 'Username is required').isLength({ min: 5 }),
-  check('Username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
-  check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email does not appear to be valid').isEmail(),
+  check('name', 'Username is required').isLength({ min: 5 }),
+  check('name', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
+  check('password', 'Password is required').not().isEmpty(),
+  check('email', 'Email does not appear to be valid').isEmail(),
 ],
 
 passport.authenticate('jwt', { session: false }), (req, res) => {

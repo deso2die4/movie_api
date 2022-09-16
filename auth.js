@@ -21,9 +21,9 @@ module.exports = (router) => {
   router.post(
     '/login',
     [
-      check('Username', 'Username is required').isLength({ min: 5 }),
-      check('username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
-      check('Password', 'Password is required').not().isEmpty(),
+      check('name', 'Username is required').isLength({ min: 5 }),
+      check('name', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
+      check('password', 'Password is required').not().isEmpty(),
     ],
     (req, res) => {
       const errors = validationResult(req);

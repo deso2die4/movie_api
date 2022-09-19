@@ -19,17 +19,8 @@ let generateJWTToken = (user) => {
 
 module.exports = (router) => {
   router.post(
-    '/login',
-    [
-      check('name', 'Username is required').isLength({ min: 5 }),
-      check('name', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
-      check('password', 'Password is required').not().isEmpty(),
-    ],
-    (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-      }
+    '/login', (req, res) => {
+     
       passport.authenticate('local', { session: false }, (error, user, info) => {
         if (error || !user) {
           return res.status(400).json({
